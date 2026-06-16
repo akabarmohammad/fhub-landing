@@ -11,7 +11,7 @@ export function Logo({ href = '#', className = '', height = 36 }: LogoProps) {
     <a href={href} className={`logo ${className}`.trim()}>
       <img
         src={images.logo}
-        alt="FulFillHub"
+        alt="FulfillHub"
         className="logo-img"
         height={height}
         decoding="async"

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -8,8 +8,7 @@ import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const DASHBOARD_URL = 'https://fhub.digero.id'
-const API_DOCS_URL = 'https://api.fhub.digero.id/api/docs'
+const DASHBOARD_URL = 'https://fhub-omega.vercel.app'
 
 const features = [
   {
@@ -75,6 +74,14 @@ const warehouses = ['Maluku', 'Papua', 'Surabaya', 'Jakarta', 'Bandung', 'Makass
 function App() {
   const glowRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLElement>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileMenuOpen])
 
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
@@ -120,8 +127,10 @@ function App() {
       })
 
       gsap.utils.toArray<HTMLElement>('.step-item').forEach((el, i) => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches
         gsap.from(el, {
-          x: i % 2 === 0 ? -40 : 40,
+          x: isMobile ? 0 : i % 2 === 0 ? -40 : 40,
+          y: isMobile ? 30 : 0,
           opacity: 0,
           duration: 0.9,
           ease: 'power3.out',
@@ -162,7 +171,25 @@ function App() {
             <a href={DASHBOARD_URL} className="btn-ghost">Masuk</a>
             <a href={DASHBOARD_URL} className="btn-primary">Mulai Sekarang</a>
           </div>
-          <a href={DASHBOARD_URL} className="nav-mobile-cta btn-primary">Masuk</a>
+          <div className="nav-mobile">
+            <a href={DASHBOARD_URL} className="nav-mobile-cta btn-primary">Masuk</a>
+            <button
+              type="button"
+              className="nav-toggle"
+              aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((open) => !open)}
+            >
+              <span className="nav-toggle-bar" />
+              <span className="nav-toggle-bar" />
+            </button>
+          </div>
+        </div>
+        <div className={`nav-mobile-panel ${mobileMenuOpen ? 'is-open' : ''}`}>
+          <a href="#fitur" onClick={() => setMobileMenuOpen(false)}>Fitur</a>
+          <a href="#alur" onClick={() => setMobileMenuOpen(false)}>Alur</a>
+          <a href="#integrasi" onClick={() => setMobileMenuOpen(false)}>Integrasi</a>
+          <a href={DASHBOARD_URL} className="btn-primary">Mulai Sekarang</a>
         </div>
       </nav>
 
@@ -204,9 +231,6 @@ function App() {
                     <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
-                <a href={API_DOCS_URL} target="_blank" rel="noopener noreferrer" className="btn-outline btn-lg">
-                  API Docs
-                </a>
               </div>
             </div>
 
@@ -214,7 +238,7 @@ function App() {
               <div className="hero-image-wrap">
                 <img
                   src={images.heroWarehouse}
-                  alt="Gudang fulfillment modern FulFillHub"
+                  alt="Gudang fulfillment modern FulfillHub"
                   className="hero-image"
                   loading="eager"
                 />
@@ -383,7 +407,7 @@ function App() {
               <div className="integrations-visual">
                 <img
                   src={images.integrationOrbit}
-                  alt="Diagram integrasi ekosistem logistik FulFillHub"
+                  alt="Diagram integrasi ekosistem logistik FulfillHub"
                   className="integrations-image"
                   loading="lazy"
                 />
@@ -455,7 +479,6 @@ function App() {
             <div className="footer-col">
               <strong>Platform</strong>
               <a href={DASHBOARD_URL}>Dashboard</a>
-              <a href={API_DOCS_URL} target="_blank" rel="noopener noreferrer">API Docs</a>
             </div>
             <div className="footer-col">
               <strong>Produk</strong>
@@ -465,7 +488,7 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} FulFillHub · Digero</span>
+            <span>© {new Date().getFullYear()} FulfillHub · Digero</span>
             <span className="footer-made">Built with precision</span>
           </div>
         </div>
