@@ -462,7 +462,6 @@ function App() {
                     <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
-                <a href="mailto:hello@digero.id" className="btn-outline btn-lg">Hubungi Kami</a>
               </div>
             </div>
           </div>
@@ -488,7 +487,7 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} FulfillHub · Digero</span>
+            <span>© {new Date().getFullYear()} FulfillHub</span>
             <span className="footer-made">Built with precision</span>
           </div>
         </div>
