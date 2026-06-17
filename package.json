@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run optimize:images && tsc -b && vite build",
+    "optimize:images": "python3 scripts/optimize-images.py",
     "lint": "eslint .",
     "preview": "vite preview"
   },

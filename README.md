@@ -26,6 +26,22 @@ npm run preview   # preview production build
 
 Output deploy: folder `dist/` → Vercel, Netlify, Cloudflare Pages, atau Nginx static.
 
+## Optimasi gambar
+
+Gambar AI asli (~2–3MB/file) di-compress otomatis saat build:
+
+```bash
+npm run optimize:images   # manual
+npm run build             # otomatis jalan optimize dulu
+```
+
+Hasil:
+- **WebP** + **JPEG** untuk desktop
+- Versi **mobile** lebih kecil di `public/images/mobile/`
+- Original backup di `public/images/originals/` (gitignored)
+
+Perkiraan total load mobile: **~500KB–800KB** (vs ~32MB sebelumnya).
+
 ## Assets (gambar)
 
 Semua gambar di `public/images/`:

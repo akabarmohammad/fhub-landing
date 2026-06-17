@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import { Logo } from './components/Logo'
+import { OptimizedImage } from './components/OptimizedImage'
 import { images } from './assets/images'
 import './App.css'
 
@@ -93,17 +94,18 @@ function App() {
     const ctx = gsap.context(() => {
       gsap.from('.nav-inner', { y: -20, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.2 })
       gsap.from('.hero-badge', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.4 })
-      gsap.from('.hero-title .line', {
-        y: 120,
+      gsap.from('.hero-title .line-inner', {
+        y: 28,
         opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: 'power4.out',
+        duration: 1,
+        stagger: 0.1,
+        ease: 'power3.out',
         delay: 0.5,
       })
       gsap.from('.hero-sub', { y: 40, opacity: 0, duration: 1, ease: 'power3.out', delay: 1.1 })
       gsap.from('.hero-actions', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 1.3 })
       gsap.from('.hero-visual', { scale: 0.9, opacity: 0, duration: 1.4, ease: 'power3.out', delay: 0.8 })
+      gsap.from('.hero-mobile-chips', { y: 24, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 1.15 })
 
       gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
         gsap.from(el, {
@@ -196,7 +198,14 @@ function App() {
       <main ref={heroRef}>
         <section className="hero">
           <div className="hero-bg">
-            <img src={images.heroBg} alt="" className="hero-bg-img" aria-hidden="true" />
+            <OptimizedImage
+              asset={images.heroBg}
+              className="hero-bg-img"
+              pictureClassName="hero-bg-picture"
+              decorative
+              loading="eager"
+              fetchPriority="high"
+            />
             <div className="hero-bg-overlay" aria-hidden="true" />
             <div className="hero-grid" aria-hidden="true" />
             <div className="hero-orb hero-orb-1" aria-hidden="true" />
@@ -211,11 +220,11 @@ function App() {
               </div>
 
               <h1 className="hero-title">
-                <span className="line">Fulfillment</span>
+                <span className="line"><span className="line-inner">Fulfillment</span></span>
                 <span className="line">
-                  <span className="serif">Multi-Gudang</span>
+                  <span className="line-inner serif">Multi-Gudang</span>
                 </span>
-                <span className="line accent-line">Tanpa Batas.</span>
+                <span className="line accent-line"><span className="line-inner">Tanpa Batas.</span></span>
               </h1>
 
               <p className="hero-sub">
@@ -236,11 +245,12 @@ function App() {
 
             <div className="hero-visual">
               <div className="hero-image-wrap">
-                <img
-                  src={images.heroWarehouse}
-                  alt="Gudang fulfillment modern FulfillHub"
+                <OptimizedImage
+                  asset={images.heroWarehouse}
                   className="hero-image"
+                  pictureClassName="hero-image-picture"
                   loading="eager"
+                  fetchPriority="high"
                 />
                 <div className="hero-image-border" aria-hidden="true" />
               </div>
@@ -256,6 +266,23 @@ function App() {
                 <div>
                   <strong>AWB Generated</strong>
                   <span>JNE8829123456</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="hero-mobile-chips">
+              <div className="hero-chip">
+                <span className="hero-chip-icon">📦</span>
+                <div>
+                  <strong>Auto-Routed</strong>
+                  <span>→ Gudang Surabaya</span>
+                </div>
+              </div>
+              <div className="hero-chip">
+                <span className="hero-chip-icon">✓</span>
+                <div>
+                  <strong>AWB Generated</strong>
+                  <span>Tracking aktif</span>
                 </div>
               </div>
             </div>
@@ -287,6 +314,7 @@ function App() {
                 Dari inbound hingga delivered — platform end-to-end untuk brand owner,
                 admin gudang, picker, hingga super admin platform.
               </p>
+              <p className="features-scroll-hint" aria-hidden="true">Geser untuk lihat semua fitur →</p>
             </div>
 
             <div className="features-grid">
@@ -294,12 +322,7 @@ function App() {
                 <article key={f.num} className={`feature-card ${f.image ? 'feature-card--visual' : ''}`}>
                   {f.image && (
                     <div className="feature-image-wrap">
-                      <img
-                        src={f.image}
-                        alt={f.title}
-                        className="feature-image"
-                        loading="lazy"
-                      />
+                      <OptimizedImage asset={f.image} className="feature-image" />
                     </div>
                   )}
                   <div className="feature-body">
@@ -335,7 +358,7 @@ function App() {
                 {steps.map((s) => (
                   <div key={s.step} className="step-item">
                     <div className="step-image-wrap">
-                      <img src={s.image} alt={s.title} className="step-image" loading="lazy" />
+                      <OptimizedImage asset={s.image} className="step-image" />
                     </div>
                     <div className="step-body">
                       <span className="step-num">{s.step}</span>
@@ -405,12 +428,7 @@ function App() {
                 </ul>
               </div>
               <div className="integrations-visual">
-                <img
-                  src={images.integrationOrbit}
-                  alt="Diagram integrasi ekosistem logistik FulfillHub"
-                  className="integrations-image"
-                  loading="lazy"
-                />
+                <OptimizedImage asset={images.integrationOrbit} className="integrations-image" />
               </div>
             </div>
           </div>
@@ -444,7 +462,7 @@ function App() {
         <section className="section cta-section">
           <div className="container">
             <div className="cta-card reveal">
-              <img src={images.ctaBg} alt="" className="cta-bg-img" aria-hidden="true" />
+              <OptimizedImage asset={images.ctaBg} className="cta-bg-img" decorative />
               <div className="cta-overlay" aria-hidden="true" />
               <div className="cta-bg-text" aria-hidden="true">FH</div>
               <h2 className="cta-title">
